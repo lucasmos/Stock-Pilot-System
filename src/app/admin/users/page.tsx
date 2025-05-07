@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -37,6 +38,13 @@ import type { User, UserRole } from '@/lib/types';
 import { getUsers, addUser, updateUserRole, deleteUser } from '@/lib/actions'; // Placeholder actions
 import { useToast } from '@/hooks/use-toast';
 import { mockUsers } from '@/lib/data'; // Using mock data for now
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function UserManagementPage() {
   const [users, setUsers] = useState<User[]>(mockUsers); // Initialize with mock data
