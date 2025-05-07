@@ -16,7 +16,7 @@ import {
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { PlusCircle, MinusCircle, XCircle, DollarSign, CreditCard, Smartphone, Printer, Loader2, PackageSearch } from 'lucide-react';
+import { PlusCircle, MinusCircle, XCircle, DollarSign, CreditCard, Smartphone, Printer, Loader2, PackageSearch, ShoppingCart } from 'lucide-react';
 import type { Product, CartItem, Sale } from '@/lib/types';
 import { getProducts, processMpesaPayment, processAirtelMoneyPayment, recordSale } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
@@ -329,3 +329,4 @@ export default function EposPage() {
     </div>
   );
 }
+
