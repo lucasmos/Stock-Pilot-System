@@ -45,7 +45,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const productFormSchema = z.object({
   name: z.string().min(3, { message: "Product name must be at least 3 characters." }),
@@ -109,6 +110,7 @@ export default function InventoryPage() {
         form.setValue("imageUrl", result.imageUrl);
         toast({ title: "Image Generated", description: "Product image URL has been set." });
       } else {
+        // @ts-ignore
         toast({ title: "Image Generation Failed", description: result.error || "Could not generate image.", variant: "destructive" });
       }
     } catch (error) {
