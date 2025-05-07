@@ -1,10 +1,11 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart, LineChart, DollarSign, ShoppingCart, Archive, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { BarChart as BarChartIcon, LineChart as LineChartIcon, DollarSign, ShoppingCart, Archive, ArrowUpRight, ArrowDownRight } from 'lucide-react'; // Renamed to avoid conflict
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from '@/components/ui/chart';
-import { Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList } from 'recharts';
+import { Bar, Line, XAxis, YAxis, CartesianGrid, LabelList, BarChart, LineChart } from 'recharts'; // Directly import BarChart and LineChart
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { Sale, Purchase } from '@/lib/types';
 import { mockSales, mockPurchases } from '@/lib/data'; // Using mock data
@@ -136,7 +137,7 @@ export default function AdminDashboardPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Net Profit</CardTitle>
-            <BarChart className="h-4 w-4 text-muted-foreground" />
+            <BarChartIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className={`text-2xl font-bold ${totalProfit >= 0 ? 'text-accent' : 'text-destructive'}`}>
@@ -168,7 +169,6 @@ export default function AdminDashboardPage() {
           </CardHeader>
           <CardContent>
             <ChartContainer config={chartConfig} className="h-[300px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} margin={{ top: 20, right: 20, left: -10, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
                   <XAxis dataKey="name" tickLine={false} axisLine={false} />
@@ -182,7 +182,6 @@ export default function AdminDashboardPage() {
                     <LabelList dataKey="purchases" position="top" formatter={(value: number) => `$${value.toFixed(0)}`} />
                   </Bar>
                 </BarChart>
-              </ResponsiveContainer>
             </ChartContainer>
           </CardContent>
         </Card>
@@ -194,7 +193,6 @@ export default function AdminDashboardPage() {
           </CardHeader>
           <CardContent>
             <ChartContainer config={chartConfig} className="h-[300px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
                   <XAxis dataKey="name" tickLine={false} axisLine={false} />
@@ -203,7 +201,6 @@ export default function AdminDashboardPage() {
                   <ChartLegend content={<ChartLegendContent />} />
                   <Line type="monotone" dataKey="profit" stroke="var(--chart-3)" strokeWidth={2} dot={false} />
                 </LineChart>
-              </ResponsiveContainer>
             </ChartContainer>
           </CardContent>
         </Card>
