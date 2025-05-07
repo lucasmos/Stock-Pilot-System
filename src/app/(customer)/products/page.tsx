@@ -19,7 +19,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "../../../components/ui/pagination";
 
 
 const PRODUCTS_PER_PAGE = 12;
