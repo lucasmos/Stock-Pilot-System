@@ -5,7 +5,7 @@ import { AdminHeader } from '@/components/layout/admin-header';
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
-    <SidebarProvider defaultOpen={true}>
+    <SidebarProvider defaultOpen={false}> {/* Changed defaultOpen to false */}
       <div className="flex min-h-screen w-full bg-muted/40">
         <AdminSidebar />
         <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 flex-1"> {/* sm:pl-14 for collapsed sidebar */}
