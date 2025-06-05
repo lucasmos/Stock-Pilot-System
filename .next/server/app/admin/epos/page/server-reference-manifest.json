@@ -1,0 +1,214 @@
+{
+  "node": {
+    "004a8de679d4c7075b1cb7e5508e1dea19c48276e2": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "0096666bf92bc4a3c091f99f9694dbb6c06d9c03a6": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "4000487d98419dd8ed45cfcb71c5d7ba32c3dd04d0": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "4007f862891a330390988ed731b272d83bb391f252": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "4009d2a4cc271504e09720b77cbaf16c5859c49a08": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "400ea19fbb8821b2c737330204b93d275360e291c5": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "402a703ddba698553234a4889c0aac4c4552b1e379": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "402e39ad2b9e011f7d32704ad598fc11de20e6da4d": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "405545ae177fa8b801b7869008f752e1f9a837720c": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "4068fad06c758aa1c49bd011b5a17b1fcb901801b1": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "406cc99c30149d258c8fb57f661923b6b903931a76": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "4094defcccaa051363910314584ea58fc0dd31f7a8": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "4095d20a0732c41e2f813eb7611260be0f1a76bb9d": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "40db6d4a84e0617715b7737e6205510866fbef6bec": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "607d5134b575b0889d1c888e2e33ecdc5dea49c703": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "608afc1d5b3831e2651aa2830bae819a4d7b2d9c61": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "60ac9e84bd61a6ba5ce45432858b763a08e9fd5e23": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "7091ce33ff3313a4e0e6654f6cddc96f6e930a36a9": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    },
+    "70d09feea5e6e1d5e76b8ab2545afaf71f0b5d52df": {
+      "workers": {
+        "app/admin/epos/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/epos/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/epos/page": "action-browser"
+      }
+    }
+  },
+  "edge": {}
+}
