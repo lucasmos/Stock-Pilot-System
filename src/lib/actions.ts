@@ -260,9 +260,11 @@ export async function updateUserRole(userId: string, newRole: UserRole): Promise
 }
 
 export async function deleteUser(userId: string): Promise<{success: boolean, error?: string}> {
-   const initialLength = mockUsers.length;
    const userToDelete = mockUsers.find(u => u.id === userId);
-   if (!userToDelete) return { success: false, error: "User not found." };
+   if (!userToDelete) {
+     return { success: false, error: "User not found." };
+   }
+
    // Prevent deleting the last admin if it's the only admin
     if (userToDelete.role === 'admin') {
         const adminCount = mockUsers.filter(u => u.role === 'admin').length;
@@ -271,12 +273,16 @@ export async function deleteUser(userId: string): Promise<{success: boolean, err
         }
     }
 
-   mockUsers = mockUsers.filter(u => u.id !== userId);
-   if (mockUsers.length < initialLength) {
+   const userIndex = mockUsers.findIndex(u => u.id === userId);
+   if (userIndex > -1) {
+     mockUsers.splice(userIndex, 1); // Modify the array in place
      console.log(`Deleted user ${userId}`);
      return { success: true };
+   } else {
+     // This case should ideally not be reached if userToDelete was found earlier by `find`.
+     console.error(`User ${userId} was found by 'find' but not by 'findIndex'. This indicates a potential data consistency issue in the mock data or logic.`);
+     return { success: false, error: "Inconsistency: User found but could not be indexed for deletion." };
    }
-   return { success: false, error: "Failed to delete user." };
 }
 
 export async function generateMonthlyReport(month: number, year: number) { 
