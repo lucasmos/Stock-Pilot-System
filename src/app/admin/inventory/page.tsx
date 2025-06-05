@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useState, useEffect, useTransition } from 'react';
+import { useState, useEffect, useTransition, ChangeEvent } from 'react';
 import Image from 'next/image';
 import {
   Table,
@@ -23,9 +24,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { PlusCircle, FileDown, Edit, Trash2, Search, PackageSearch, PackageOpen, Image as ImageIcon, Loader2 } from 'lucide-react';
+import { PlusCircle, FileDown, Edit, Trash2, Search, PackageSearch, PackageOpen, Image as ImageIcon, Loader2, UploadCloud } from 'lucide-react';
 import type { Product } from '@/lib/types';
-import { getProducts, addProduct, generateProductImage } from '@/lib/actions'; // Assuming these actions exist
+import { getProducts, addProduct, generateProductImage, addProductsFromExcel } from '@/lib/actions'; 
 import { useToast } from '@/hooks/use-toast';
 import {
   Form,
@@ -66,6 +67,7 @@ export default function InventoryPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isAddProductDialogOpen, setIsAddProductDialogOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const [isProcessingExcel, startExcelProcessing] = useTransition();
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
 
   const { toast } = useToast();
@@ -82,19 +84,20 @@ export default function InventoryPage() {
     },
   });
 
-  useEffect(() => {
-    async function fetchProducts() {
-      setIsLoading(true);
-      try {
-        const fetchedProducts = await getProducts();
-        setProducts(fetchedProducts);
-      } catch (error) {
-        toast({ title: "Error", description: "Failed to fetch products.", variant: "destructive" });
-      } finally {
-        setIsLoading(false);
-      }
+  const fetchProductsData = async () => {
+    setIsLoading(true);
+    try {
+      const fetchedProducts = await getProducts();
+      setProducts(fetchedProducts);
+    } catch (error) {
+      toast({ title: "Error", description: "Failed to fetch products.", variant: "destructive" });
+    } finally {
+      setIsLoading(false);
     }
-    fetchProducts();
+  };
+
+  useEffect(() => {
+    fetchProductsData();
   }, [toast]);
   
   const handleGenerateImage = async () => {
@@ -110,7 +113,6 @@ export default function InventoryPage() {
         form.setValue("imageUrl", result.imageUrl);
         toast({ title: "Image Generated", description: "Product image URL has been set." });
       } else {
-        // @ts-ignore
         toast({ title: "Image Generation Failed", description: result.error || "Could not generate image.", variant: "destructive" });
       }
     } catch (error) {
@@ -131,9 +133,9 @@ export default function InventoryPage() {
       });
 
       const result = await addProduct(formData);
-      if (result.success) {
+      if (result.success && result.product) {
         toast({ title: "Success", description: result.success });
-        setProducts(prev => [...prev, result.product as Product]); // Assuming addProduct returns the new product
+        setProducts(prev => [...prev, result.product as Product]); 
         setIsAddProductDialogOpen(false);
         form.reset();
       } else {
@@ -146,22 +148,77 @@ export default function InventoryPage() {
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Placeholder for PDF export functionality
   const handleExportPdf = (range?: string) => {
     console.log(`Exporting ${range || 'all'} data as PDF...`);
-    toast({ title: "Exporting PDF", description: `Preparing ${range || 'all'} product data for PDF export.` });
-    // Actual PDF generation logic would go here
+    toast({ title: "Exporting PDF", description: `Preparing ${range || 'all'} product data for PDF export. (Simulated)` });
+  };
+
+  const handleDownloadExcelTemplate = () => {
+    toast({
+      title: "Download Excel Template",
+      description: "Create an Excel file with columns: Name, Description, Price, QuantityInStock, Category, Supplier, ImageURL. (Actual file download not implemented)",
+      duration: 10000,
+    });
+    // In a real scenario, you would trigger a download here.
+    // For example: window.location.href = '/api/download-product-template';
+  };
+
+  const handleExcelFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    if (!file.name.endsWith('.xlsx') && !file.name.endsWith('.xls')) {
+        toast({ title: "Invalid File Type", description: "Please upload an Excel file (.xlsx or .xls).", variant: "destructive" });
+        event.target.value = ''; // Reset file input
+        return;
+    }
+
+    startExcelProcessing(async () => {
+      const formData = new FormData();
+      formData.append('excelFile', file);
+      try {
+        const result = await addProductsFromExcel(formData);
+        if (result.success) {
+          toast({ title: "Excel Processed", description: result.message });
+          fetchProductsData(); // Refresh product list
+        } else {
+          toast({ title: "Excel Processing Error", description: result.error || "Could not process Excel file.", variant: "destructive" });
+        }
+      } catch (error) {
+        toast({ title: "Upload Error", description: "An error occurred while uploading the Excel file.", variant: "destructive" });
+      }
+    });
+     event.target.value = ''; // Reset file input after processing
   };
 
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
         <h1 className="text-3xl font-semibold">Inventory Management</h1>
-        <div className="flex gap-2 w-full sm:w-auto">
+        <div className="flex flex-wrap gap-2 w-full sm:w-auto justify-start sm:justify-end">
+          <Button onClick={handleDownloadExcelTemplate} variant="outline" className="w-full sm:w-auto">
+            <FileDown className="mr-2 h-4 w-4" /> Download Template
+          </Button>
+          
+          <Button asChild variant="outline" className="w-full sm:w-auto relative cursor-pointer">
+            <div>
+              <UploadCloud className="mr-2 h-4 w-4" /> Add from Excel
+              <Input 
+                type="file" 
+                accept=".xlsx, .xls" 
+                onChange={handleExcelFileChange}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                disabled={isProcessingExcel}
+              />
+            </div>
+          </Button>
+
           <Dialog open={isAddProductDialogOpen} onOpenChange={setIsAddProductDialogOpen}>
             <DialogTrigger asChild>
               <Button className="w-full sm:w-auto">
-                <PlusCircle className="mr-2 h-4 w-4" /> Add Product
+                <PlusCircle className="mr-2 h-4 w-4" /> Add Product Manually
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-lg">
@@ -172,7 +229,7 @@ export default function InventoryPage() {
                 </DialogDescription>
               </DialogHeader>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4 max-h-[70vh] overflow-y-auto pr-2">
                   <FormField
                     control={form.control}
                     name="name"
@@ -180,7 +237,7 @@ export default function InventoryPage() {
                       <FormItem>
                         <FormLabel>Product Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Dell XPS 15" {...field} />
+                          <Input placeholder="e.g., Dell XPS 15" {...field} disabled={isPending || isGeneratingImage}/>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -193,7 +250,7 @@ export default function InventoryPage() {
                       <FormItem>
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                          <Textarea placeholder="Detailed product description" {...field} />
+                          <Textarea placeholder="Detailed product description" {...field} disabled={isPending}/>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -207,7 +264,7 @@ export default function InventoryPage() {
                         <FormItem>
                           <FormLabel>Price ($)</FormLabel>
                           <FormControl>
-                            <Input type="number" step="0.01" placeholder="99.99" {...field} />
+                            <Input type="number" step="0.01" placeholder="99.99" {...field} disabled={isPending}/>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -220,7 +277,7 @@ export default function InventoryPage() {
                         <FormItem>
                           <FormLabel>Quantity</FormLabel>
                           <FormControl>
-                            <Input type="number" placeholder="100" {...field} />
+                            <Input type="number" placeholder="100" {...field} disabled={isPending}/>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -234,7 +291,7 @@ export default function InventoryPage() {
                       <FormItem>
                         <FormLabel>Category</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Laptops" {...field} />
+                          <Input placeholder="e.g., Laptops" {...field} disabled={isPending}/>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -247,7 +304,7 @@ export default function InventoryPage() {
                       <FormItem>
                         <FormLabel>Supplier</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Dell Inc." {...field} />
+                          <Input placeholder="e.g., Dell Inc." {...field} disabled={isPending}/>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -261,15 +318,15 @@ export default function InventoryPage() {
                         <FormLabel>Image URL</FormLabel>
                         <div className="flex items-center gap-2">
                           <FormControl>
-                            <Input placeholder="https://example.com/image.jpg" {...field} />
+                            <Input placeholder="https://example.com/image.jpg" {...field} disabled={isPending || isGeneratingImage}/>
                           </FormControl>
-                          <Button type="button" variant="outline" onClick={handleGenerateImage} disabled={isGeneratingImage || !form.getValues("name")}>
+                          <Button type="button" variant="outline" onClick={handleGenerateImage} disabled={isGeneratingImage || !form.getValues("name") || isPending}>
                             {isGeneratingImage ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImageIcon className="h-4 w-4" />}
                           </Button>
                         </div>
                         {field.value && (
-                          <div className="mt-2">
-                            <Image src={field.value} alt="Product Preview" width={100} height={100} className="rounded-md object-cover" data-ai-hint="product image" />
+                          <div className="mt-2 relative w-24 h-24">
+                            <Image src={field.value} alt="Product Preview" fill className="rounded-md object-cover" data-ai-hint="product image" />
                           </div>
                         )}
                         <FormMessage />
@@ -277,9 +334,9 @@ export default function InventoryPage() {
                     )}
                   />
                   <DialogFooter>
-                    <Button type="button" variant="outline" onClick={() => setIsAddProductDialogOpen(false)}>Cancel</Button>
-                    <Button type="submit" disabled={isPending}>
-                      {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    <Button type="button" variant="outline" onClick={() => { setIsAddProductDialogOpen(false); form.reset(); }} disabled={isPending}>Cancel</Button>
+                    <Button type="submit" disabled={isPending || isGeneratingImage}>
+                      {(isPending || isGeneratingImage) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       Save Product
                     </Button>
                   </DialogFooter>
@@ -299,7 +356,6 @@ export default function InventoryPage() {
               <DropdownMenuItem onSelect={() => handleExportPdf('last_7_days')}>Last 7 Days</DropdownMenuItem>
               <DropdownMenuItem onSelect={() => handleExportPdf('last_30_days')}>Last 30 Days</DropdownMenuItem>
               <DropdownMenuItem onSelect={() => handleExportPdf('all_time')}>All Data</DropdownMenuItem>
-              {/* Add more custom range options if needed */}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -313,9 +369,17 @@ export default function InventoryPage() {
           className="w-full rounded-lg bg-background pl-8"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          disabled={isProcessingExcel}
         />
       </div>
       
+      {isProcessingExcel && (
+        <div className="flex items-center justify-center gap-2 text-primary p-4 border-t border-b">
+          <Loader2 className="h-5 w-5 animate-spin" />
+          <span>Processing Excel file... Please wait.</span>
+        </div>
+      )}
+
       <Card>
         <CardHeader>
           <CardTitle>Product List</CardTitle>
@@ -354,14 +418,16 @@ export default function InventoryPage() {
                   <TableRow key={product.id}>
                     <TableCell className="hidden sm:table-cell">
                       {product.imageUrl ? (
+                        <div className="relative w-16 h-16">
                         <Image
                           alt={product.name}
                           className="aspect-square rounded-md object-cover"
-                          height="64"
+                          fill
+                          sizes="64px"
                           src={product.imageUrl}
-                          width="64"
                           data-ai-hint="product image"
                         />
+                        </div>
                       ) : (
                         <div className="h-16 w-16 bg-muted rounded-md flex items-center justify-center">
                           <PackageOpen className="h-8 w-8 text-muted-foreground" />
@@ -373,9 +439,9 @@ export default function InventoryPage() {
                     <TableCell className="hidden md:table-cell">${product.price.toFixed(2)}</TableCell>
                     <TableCell>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        product.quantityInStock > 10 ? 'bg-green-100 text-green-800' :
-                        product.quantityInStock > 0 ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-red-100 text-red-800'
+                        product.quantityInStock > 10 ? 'bg-green-100 text-green-800 dark:bg-green-800/30 dark:text-green-300' :
+                        product.quantityInStock > 0 ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800/30 dark:text-yellow-300' :
+                        'bg-red-100 text-red-800 dark:bg-red-800/30 dark:text-red-300'
                       }`}>
                         {product.quantityInStock}
                       </span>
